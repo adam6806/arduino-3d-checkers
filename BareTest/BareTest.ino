@@ -62,12 +62,25 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   
-  //strobe();
-  //pulseLeds();
-  //inOrderCycle();
-  //cubeCycle();
-  cubeVertPlaneShift();
-  cubeHorizPlaneShift();
+  for(int i=0;i<200;i++){
+    strobe();
+  }
+  for(int j=0;j<3;j++){
+    pulseLeds();
+  }
+  
+  inOrderCycle();
+  cubeCycle();
+  
+  for(int k=0;k<3;k++){
+    cubeVertPlaneShift();
+  }
+  
+  
+  for(int l=0;l<3;l++){
+    cubeHorizPlaneShift();
+  }
+  
   
 }
 
@@ -112,7 +125,7 @@ void cubeCycle() {
         if(cube[k][j][i]!=32) {
           changePix(cube[k][j][i], random(1,8));
           refresh();
-          delay(100);
+          delay(300);
         }
       }
     }
