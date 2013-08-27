@@ -88,11 +88,11 @@ void loop() {
   }
   */
   
-  bug(1000);
+  snake(1000);
   
 }
 
-void bug(int num) {
+void snake(int num) {
   int proposedX = 0;
   int proposedY = 0;
   int proposedZ = 0;
