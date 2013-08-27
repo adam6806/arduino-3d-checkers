@@ -62,7 +62,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   
-  
+  /*
   
   for(int i=0;i<200;i++){
     strobe();
@@ -86,10 +86,108 @@ void loop() {
   for(int l=0;l<3;l++){
     cubeHorizPlaneShift();
   }
+  */
   
-  
+  bug(1000);
   
 }
+
+void bug(int num) {
+  int proposedX = 0;
+  int proposedY = 0;
+  int proposedZ = 0;
+  int currentX = 0;
+  int currentY = 0;
+  int currentZ = 0;
+  int previousX1 = 0;
+  int previousY1 = 0;
+  int previousZ1 = 0;
+  int previousX2 = 0;
+  int previousY2 = 0;
+  int previousZ2 = 0;
+  int previousX3 = 0;
+  int previousY3 = 0;
+  int previousZ3 = 0;
+  int rand = 0;
+  
+  for(int i = 0;i<num;i++) {
+    rand = random(1,12);
+    if(rand == 1) {
+      proposedY++;
+      proposedZ--;
+    } else if(rand == 2) {
+      proposedY++;
+      proposedZ++;
+    } else if(rand == 3) {
+      proposedX--;
+      proposedY++;
+    } else if(rand == 4) {
+      proposedX++;
+      proposedY++;
+    } else if(rand == 5) {
+      proposedX++;
+      proposedZ++;
+    } else if(rand == 6) {
+      proposedX--;
+      proposedZ--;
+    } else if(rand == 7) {
+      proposedX++;
+      proposedZ--;
+    } else if(rand == 8) {
+      proposedX--;
+      proposedZ++;
+    } else if(rand == 9) {
+      proposedY--;
+      proposedZ--;
+    } else if(rand == 10) {
+      proposedY--;
+      proposedZ++;
+    } else if(rand == 11) {
+      proposedY--;
+      proposedX--;
+    } else {
+      proposedX++;
+      proposedY--;
+    }
+    
+    String compareNew = String(String(proposedX) + String(proposedY) + String(proposedZ));
+    String compare1 = String(String(previousX1) + String(previousY1) + String(previousZ1));
+    String compare2 = String(String(previousX2) + String(previousY2) + String(previousZ2));
+    String compare3 = String(String(previousX3) + String(previousY3) + String(previousZ3));
+    
+    if(proposedX<=3 && proposedX>=0 && proposedY<=3 && proposedY>=0 && proposedZ<=3 && proposedZ>=0 && compareNew!=compare1 && compareNew!=compare2 && compareNew!=compare3) {
+      
+      changePix(cube[previousX3][previousY3][previousZ3], 0, 25);
+      
+      previousX3 = previousX2;
+      previousY3 = previousY2;
+      previousZ3 = previousZ2;
+      previousX2 = previousX1;
+      previousY2 = previousY1;
+      previousZ2 = previousZ1;
+      previousX1 = currentX;
+      previousY1 = currentY;
+      previousZ1 = currentZ;   
+      currentX = proposedX;
+      currentY = proposedY;
+      currentZ = proposedZ;   
+      
+      changePix(cube[currentX][currentY][currentZ], 1);
+      changePix(cube[previousX1][previousY1][previousZ1], 1, 18);
+      changePix(cube[previousX2][previousY2][previousZ2], 1, 11);
+      changePix(cube[previousX3][previousY3][previousZ3], 1, 4);
+      
+      refresh();
+      delay(100);
+      
+    } else {
+      proposedX = currentX;
+      proposedY = currentY;
+      proposedZ = currentZ;
+    }
+  }
+}
+    
 
 void cubeHorizPlaneShift() {
   for(int i=0;i<4;i++) {
@@ -279,4 +377,17 @@ void changePix(int index, int color) //0-off 1-red 2-green 3-blue 4-yellow 5-pin
   if(color==5) pixels[index].turnPink();
   if(color==6) pixels[index].turnTeal();
   if(color==7) pixels[index].turnWhite();
+}
+
+void changePix(int index, int color, int brightness) //0-off 1-red 2-green 3-blue 4-yellow 5-pink 6-teal 7-white
+{
+  if(color==0) pixels[index].turnOff();
+  if(color==1) pixels[index].turnRed();
+  if(color==2) pixels[index].turnGreen();
+  if(color==3) pixels[index].turnBlue();
+  if(color==4) pixels[index].turnYellow();
+  if(color==5) pixels[index].turnPink();
+  if(color==6) pixels[index].turnTeal();
+  if(color==7) pixels[index].turnWhite();
+  pixels[index].setBrightness(brightness);
 }
