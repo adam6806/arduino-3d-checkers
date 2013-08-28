@@ -62,7 +62,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   
-  /*
+  
   
   for(int i=0;i<200;i++){
     strobe();
@@ -86,11 +86,13 @@ void loop() {
   for(int l=0;l<3;l++){
     cubeHorizPlaneShift();
   }
-  */
   
-  snake(1000);
+  
+  snake(500);
   
 }
+
+
 
 void snake(int num) {
   int proposedX = 0;
@@ -172,10 +174,10 @@ void snake(int num) {
       currentY = proposedY;
       currentZ = proposedZ;   
       
-      changePix(cube[currentX][currentY][currentZ], 1);
-      changePix(cube[previousX1][previousY1][previousZ1], 1, 18);
-      changePix(cube[previousX2][previousY2][previousZ2], 1, 11);
-      changePix(cube[previousX3][previousY3][previousZ3], 1, 4);
+      changePix(cube[currentX][currentY][currentZ], 1, 250);
+      changePix(cube[previousX1][previousY1][previousZ1], 2, 250);
+      changePix(cube[previousX2][previousY2][previousZ2], 3, 250);
+      changePix(cube[previousX3][previousY3][previousZ3], 4, 250);
       
       refresh();
       delay(100);
@@ -186,6 +188,10 @@ void snake(int num) {
       proposedZ = currentZ;
     }
   }
+  changePix(cube[currentX][currentY][currentZ], 0, 25);
+  changePix(cube[previousX1][previousY1][previousZ1], 0, 25);
+  changePix(cube[previousX2][previousY2][previousZ2], 0, 25);
+  changePix(cube[previousX3][previousY3][previousZ3], 0, 25);
 }
     
 
