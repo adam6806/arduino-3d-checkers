@@ -50,6 +50,15 @@ int randomIndex;
 int randomColor;
 int cube[4][4][4];
 
+int button1Pin = 4;
+int button2Pin = 5;
+int button1State = 0;
+int button2State = 0;
+
+int effectNumber = 0;
+int button1 = 0;
+int button2 = 0;
+
 
 void setup() {
   // put your setup code here, to run once:
@@ -57,39 +66,55 @@ void setup() {
   strip.begin();
   strip.show();
   setArray();
+  pinMode(button1Pin, INPUT);
+  pinMode(button2Pin, INPUT);
+  
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
   
+  button1State = digitalRead(button1Pin);
+  button2State = digitalRead(button2Pin);
+  if(button1State == HIGH) button1 = 1;
+  if(button2State == HIGH) button2 = 1;
   
+  if(button1 == 1) {
+    effectNumber++;
+    if(effectNumber == 8) effectNumber = 0;
+    button1 = 0;
+  }
   
-  for(int i=0;i<200;i++){
+  if(button2 == 1) {
+    effectNumber--;
+    if(effectNumber == -1) effectNumber = 7;
+    button2 = 0;
+  }
+  
+  if(effectNumber == 0) {
+    allOff();
+  }
+  else if(effectNumber == 1) {
     strobe();
   }
-  for(int j=0;j<3;j++){
+  else if(effectNumber == 2) {
     pulseLeds();
   }
-  
-  inOrderCycle();
-  
-  
-  cubeCycle();
-  
-  
-  
-  for(int k=0;k<3;k++){
+  else if(effectNumber == 3) {  
+    inOrderCycle();
+  }
+  else if(effectNumber == 4) {  
+    cubeCycle();
+  }
+  else if(effectNumber == 5) {
     cubeVertPlaneShift();
   }
-  
-  
-  for(int l=0;l<3;l++){
+  else if(effectNumber == 6) {
     cubeHorizPlaneShift();
   }
-  
-  
-  snake(500);
-  
+  else if(effectNumber == 7) {
+    snake(500);
+  }
 }
 
 
@@ -175,12 +200,12 @@ void snake(int num) {
       currentZ = proposedZ;   
       
       changePix(cube[currentX][currentY][currentZ], 1, 250);
-      changePix(cube[previousX1][previousY1][previousZ1], 2, 250);
-      changePix(cube[previousX2][previousY2][previousZ2], 3, 250);
-      changePix(cube[previousX3][previousY3][previousZ3], 4, 250);
+      changePix(cube[previousX1][previousY1][previousZ1], 2, 200);
+      changePix(cube[previousX2][previousY2][previousZ2], 3, 125);
+      changePix(cube[previousX3][previousY3][previousZ3], 4, 30);
       
       refresh();
-      delay(100);
+      delay(1);
       
     } else {
       proposedX = currentX;
@@ -289,7 +314,7 @@ void setArray() {
 
 void inOrderCycle() {
   for(int i=0;i<32;i++){
-    changePix(i,3);
+    changePix(i,random(1,7));
     refresh();
     delay(500);
     allOff();
@@ -365,6 +390,10 @@ void pulse(int num[])
 
 void refresh()
 {
+  button1State = digitalRead(button1Pin);
+  button2State = digitalRead(button2Pin);
+  if(button1State == HIGH) button1 = 1;
+  if(button2State == HIGH) button2 = 1;
   for(int i=0;i<40;i++)
   {
     strip.setPixelColor(i,pixels[i].getColor());
